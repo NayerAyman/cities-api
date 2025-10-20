@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const DATA_FILE = "./data/cities.json";
+const DATA_FILE = "data/cities.json";
 
 // ✅ Get all cities
 app.get("/api/cities", (req, res) => {
