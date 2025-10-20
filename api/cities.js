@@ -9,13 +9,13 @@ app.use(express.json());
 const DATA_FILE = "./data/cities.json";
 
 // ✅ Get all cities
-app.get("/cities", (req, res) => {
+app.get("/api/cities", (req, res) => {
   const data = JSON.parse(fs.readFileSync(DATA_FILE));
   res.json(data);
 });
 
 // ✅ Add city
-app.post("/cities", (req, res) => {
+app.post("/api/cities", (req, res) => {
   const cities = JSON.parse(fs.readFileSync(DATA_FILE));
   const newCity = { id: Date.now().toString(), ...req.body };
   cities.push(newCity);
@@ -24,7 +24,7 @@ app.post("/cities", (req, res) => {
 });
 
 // ✅ Update city
-app.put("/cities/:id", (req, res) => {
+app.put("/api/cities/:id", (req, res) => {
   const cities = JSON.parse(fs.readFileSync(DATA_FILE));
   const id = req.params.id;
   const index = cities.findIndex((c) => c.id === id);
@@ -36,13 +36,12 @@ app.put("/cities/:id", (req, res) => {
 });
 
 // ✅ Delete city
-app.delete("/cities/:id", (req, res) => {
+app.delete("/api/cities/:id", (req, res) => {
   const cities = JSON.parse(fs.readFileSync(DATA_FILE));
   const filtered = cities.filter((c) => c.id !== req.params.id);
   fs.writeFileSync(DATA_FILE, JSON.stringify(filtered, null, 2));
   res.json({ success: true });
 });
 
-// ✅ Dynamic port for Render
-const PORT = process.env.PORT || 9000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// ✅ Export for Vercel
+export default app;
